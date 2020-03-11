@@ -1,0 +1,63 @@
+1. java -version
+
+2. sudo apt-get install openjdk-7-jdk
+
+3. Download Binary Distrubution zip (pgp, sha512) tar.gz (pgp, sha512) from https://tomcat.apache.org/download-90.cgi
+
+4.  cd ~/Downloads
+          Extract the above file using  
+                 tar -xvf apache-tomcat-9.0.31.tar.gz
+
+5. sudo mv apache-tomcat-9.0.31 /usr/local/
+
+6. sudo vi /usr/local/apache-tomcat-8.5.51/conf/tomcat-users.xml
+
+ Edit the below code in between tags <tomcat-users>  and   </tomcat-users>
+
+eg:
+       <tomcat-users>
+
+
+      <role rolename="manager-script"/>
+      <user username="user" password="password" roles="manager-script"/>
+
+
+      </tomcat-users>
+
+7.  cd /etc/init.d/
+
+8.  sudo vi apache-tomcat-9.0.31
+
+    Edit the following code in apache-tomcat-9.0.31 file
+
+
+    #!/bin/bash
+    export CATALINA_HOME=/usr/local/apache-tomcat-8.5.51
+    PATH=/sbin:/bin:/usr/sbin:/usr/bin
+    start(){
+    sh $CATALINA_HOME/bin/startup.sh
+    }
+   stop(){
+   sh $CATALINA_HOME/bin/shutdown.sh
+   }
+  case $1 in
+     start|stop) $1;;
+     restart) stop; start;;
+     *) echo "Run as $0 <start|stop|restart>"; exit 1;;
+  esac
+
+
+
+9.  sudo chmod 755 /etc/init.d/apache-tomcat-9.0.31
+
+
+10. sudo chmod 755 /usr/local/apache-tomcat-8.5.51/bin/startup.sh
+
+
+11. sudo update-rc.d apache-tomcat-9.0.31 defaults
+
+
+12.  Go to web browser and type below URL 
+
+           http://localhost:8080/
+
